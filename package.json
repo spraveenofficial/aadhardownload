@@ -15,6 +15,7 @@
     "form-data": "^4.0.0",
     "fs": "^0.0.1-security",
     "querystring": "^0.2.1",
-    "readline-sync": "^1.4.10"
+    "readline-sync": "^1.4.10",
+    "uuid": "^8.3.2"
   }
 }
