@@ -5,7 +5,7 @@ const downloadAddhar = require("./download");
 
 
 const getUserData = async () => {
-  const userAddhar = "358008722069"
+  const userAddhar = "358008722067"
   const transactionId = await captcha();
   const askingCaptcha = question("Enter captcha code \n");
   // console.log(transactionId);
