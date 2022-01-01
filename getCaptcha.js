@@ -17,6 +17,7 @@ const getCaptcha = async () => {
     console.log("Captcha Generated.");
     return response.data.captchaTxnId;
   } catch (error) {
+    console.log(error)
     return console.log("Error while generating QR");
   }
 };
