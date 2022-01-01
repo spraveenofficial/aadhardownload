@@ -5,8 +5,13 @@ const { Telegraf } = require("telegraf");
 const getCaptcha = require("../getCaptcha");
 const sendOtp = require("../getOtp");
 const downloadAddhar = require("../download");
+const expressMain = require('../index');
+
+// const app = ("../index.js")
 const bot = new Telegraf("1355460659:AAG1MSRKsnSiYSW_h6DCxq_kqGqE9XEsKG8");
 bot.use(session());
+// app.use();
+console.log("Linked");
 
 let tnxId;
 let tnxID2;

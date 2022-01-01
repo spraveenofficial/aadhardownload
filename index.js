@@ -1,17 +1,14 @@
-const { question } = require("readline-sync");
-const captcha = require("./getCaptcha");
-const sendOtp = require("./getOtp");
-const downloadAddhar = require("./download");
+const express = require("express");
+const PORT = process.env.PORT || 3000;
+// const bot = "./bot/index.js";
 
+const app = express();
+app.use("/", (req, res) => {
+  res.send("Server working fine");
+});
 
-const getUserData = async () => {
-  const transactionId = await captcha();
-  const userAddhar = "358008722067"
-  const askingCaptcha = question("Enter captcha code \n");
-  // console.log(transactionId);
-  const sendingOtp = await sendOtp(userAddhar, transactionId, askingCaptcha);
-  const otp = question("Enter otp \n");
-  const download = await downloadAddhar(otp, userAddhar, sendingOtp);
-};
+app.listen(PORT, (req, res) => {
+  console.log("Server running on " + PORT);
+});
 
-getUserData();
+module.exports = app;
