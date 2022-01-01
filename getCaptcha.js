@@ -6,7 +6,6 @@ const getCaptcha = async () => {
     const response = await axios({
       url: "https://tathya.uidai.gov.in/unifiedAppAuthService/api/v2/get/captcha",
       method: "POST",
-      data: { langCode: "en", captchaLength: "3", captchaType: "2" },
       headers: {
         Accept: "application/json, text/plain",
         "Accept-Encoding": "gzip, deflate, br",
@@ -25,6 +24,7 @@ const getCaptcha = async () => {
         "User-Agent":
           "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Mobile Safari/537.36",
       },
+      data: { langCode: "en", captchaLength: "3", captchaType: "2" },
     });
     const imageBuffer = Buffer.from(
       response.data.captchaBase64String,
