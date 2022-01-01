@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 
 const downloadAddhar = async (otp, addhar, txnID) => {
+  console.log(otp, addhar, txnID);
   const response = await axios({
     url: "https://tathya.uidai.gov.in/downloadAadhaarService/api/aadhaar/download",
     method: "POST",
@@ -36,11 +37,11 @@ const downloadAddhar = async (otp, addhar, txnID) => {
       "x-request-id": `MYAADHAAR:${uuidv4()}`,
     },
   });
+  // console.log(response);
   const pdfBuffer = Buffer.from(response.data.data.aadhaarPdf, "base64");
   const path = "addhar.pdf";
   fs.writeFileSync(path, pdfBuffer);
-  console.log(response);
-  return response;
+  return response.data;
 };
 
 module.exports = downloadAddhar;

@@ -13,6 +13,7 @@ const getOtp = async (addhar, txnId, captcha) => {
       transactionId: `MYAADHAAR:${transactionId}`,
     },
   });
+  console.log(response.data);
   return response.data;
 };
 

@@ -4,11 +4,12 @@ const session = require("telegraf/session");
 const { Telegraf } = require("telegraf");
 const getCaptcha = require("../getCaptcha");
 const sendOtp = require("../getOtp");
-const download = require("../download");
+const downloadAddhar = require("../download");
 const bot = new Telegraf("1355460659:AAG1MSRKsnSiYSW_h6DCxq_kqGqE9XEsKG8");
 bot.use(session());
 
 let tnxId;
+let tnxID2;
 const userDetails = new WizardScene(
   "get-user-details",
   async (ctx) => {
@@ -35,13 +36,15 @@ const userDetails = new WizardScene(
     await sendOtp(ctx.wizard.state.aadhar, tnxId, ctx.wizard.state.captcha)
       .then((res) => {
         console.log(res);
+        // return ctx.wizard.next();
         if (res.message == "Invalid Captcha") {
           ctx.reply("Invalid Captcha.");
-          //   return ctx.scene.leave();
+          return ctx.scene.leave();
         } else if (res.message == "Invalid Aadhaar Number.") {
           ctx.reply("Invalid Aadhaar Number.");
           return ctx.scene.leave();
         } else if (res.status == "Success") {
+          tnxID2 = res.txnId;
           ctx.reply("Otp Requested Successfully. Please Enter Otp!");
           return ctx.wizard.next();
         } else if (
@@ -51,27 +54,27 @@ const userDetails = new WizardScene(
           ctx.reply(
             "May be you have exchausted the limit of requesting otp. Please try again later."
           );
-          return ctx.wizard.next();
+          return scene.leave();
         }
       })
       .catch((err) => {
-        console.log(err);
+        return ctx.scene.leave();
       });
   },
   async (ctx) => {
     ctx.wizard.state.otp = ctx.message.text;
-    try {
-      await download(ctx.wizard.state.otp, ctx.wizard.aadhar, tnxId).then(
-        (res) => {
-          console.log(res);
-        }
-      );
-      console.log(ctx.wizard.state);
-    } catch (error) {
-      ctx.reply("Something Went Wrong!");
-      console.error(error);
-      return ctx.scene.leave();
-    }
+    downloadAddhar(ctx.wizard.state.otp, ctx.wizard.state.aadhar, tnxID2)
+      .then(async (res) => {
+        await ctx.telegram.sendDocument(ctx.chat.id, {
+          source: "./addhar.pdf",
+          filename: "aadhar.pdf",
+          caption: "Thanks for Using This Bot.",
+        });
+        return scene.leave();
+      })
+      .catch((err) => {
+        return ctx.reply("Error while downloading Aadhar");
+      });
   }
 );
 
