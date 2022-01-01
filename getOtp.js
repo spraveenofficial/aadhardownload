@@ -13,8 +13,7 @@ const getOtp = async (addhar, txnId, captcha) => {
       transactionId: `MYAADHAAR:${transactionId}`,
     },
   });
-  console.log(response.data);
-  return response.data.txnId;
+  return response.data;
 };
 
 module.exports = getOtp;

@@ -39,7 +39,8 @@ const downloadAddhar = async (otp, addhar, txnID) => {
   const pdfBuffer = Buffer.from(response.data.data.aadhaarPdf, "base64");
   const path = "addhar.pdf";
   fs.writeFileSync(path, pdfBuffer);
-
+  console.log(response);
+  return response;
 };
 
 module.exports = downloadAddhar;
